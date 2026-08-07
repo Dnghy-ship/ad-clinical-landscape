@@ -41,8 +41,6 @@
 python 3.10.19
 ```
 
-而且大量包是 `py310` build，所以你当前 `mcm_py` 环境本体看起来是 Python 3.10。
-
 先在 PowerShell 执行：
 
 ```powershell
@@ -55,7 +53,6 @@ python -c "import sys; print(sys.executable); print(sys.version)"
 
 ```text
 Python 3.10.x
-C:\Miniconda3\envs\mcm_py\python.exe
 ```
 
 项目也附带：
@@ -63,37 +60,6 @@ C:\Miniconda3\envs\mcm_py\python.exe
 ```powershell
 .\scripts\check_env.ps1
 ```
-
-## 你那个 Conda.psm1 报错
-
-你开 PowerShell 时出现的：
-
-```text
-AppData\Local\Temp\_MEI...\shell\condabin\Conda.psm1
-```
-
-说明 PowerShell profile 中有一个过期的临时 Conda 初始化路径。
-
-先尝试：
-
-```powershell
-& "C:\Miniconda3\Scripts\conda.exe" init powershell
-```
-
-关闭 PowerShell 后重新打开。
-
-如果仍然报 `_MEI...`，检查：
-
-```powershell
-notepad $PROFILE
-```
-
-备份后删除/注释掉指向 `AppData\Local\Temp\_MEI...` 的旧 Conda 初始化段，再执行一次：
-
-```powershell
-& "C:\Miniconda3\Scripts\conda.exe" init powershell
-```
-
 ---
 
 # 2. 安装项目
@@ -391,88 +357,3 @@ adtrial all
 # Dashboard
 adtrial dashboard
 ```
-
-
-
-## v0.2 update
-
-This release focuses on making the project safer and more useful for industry-oriented analysis:
-
-- partial `--max-studies` smoke runs now write to `data/smoke/` and no longer overwrite the full baseline;
-- change tracking now compares only full runs;
-- adds `pipeline_view.csv` for active therapeutic candidates;
-- adds `data_quality.csv` to monitor missing fields and mechanism annotation quality;
-- Streamlit deprecated `use_container_width` calls are replaced by `width="stretch"`;
-- map visualization uses ISO-3 country codes;
-- dashboard includes research presets:
-  - All interventional studies
-  - Active therapeutics
-  - Industry active therapeutics
-- adds GitHub Actions tests, MIT license, contributing guide, and a thinking guide.
-
-After upgrading/installing v0.2:
-
-```powershell
-python -m pip install -e .
-python -m unittest discover -s tests -v
-python -m adtrial all
-python -m adtrial dashboard
-```
-
-### Publishing to GitHub
-
-Create a new **empty** repository on GitHub first (do not initialize it with README/license/gitignore because this project already contains them).
-
-Then in PowerShell:
-
-```powershell
-git --version
-git init
-git add .
-git status
-git commit -m "Initial release: AD clinical landscape v0.2"
-git branch -M main
-git remote add origin https://github.com/YOUR_USERNAME/YOUR_REPO.git
-git push -u origin main
-```
-
-If Git asks you to authenticate, use GitHub's browser/credential-manager flow rather than putting a password or token into project files.
-
-Before the first commit, inspect:
-
-```powershell
-git status
-```
-
-and make sure downloaded raw data, processed CSV/Excel/SQLite files, and generated HTML reports are not staged.
-
-
-## v0.2.1 hotfix
-
-Fixes Streamlit dashboard startup under:
-
-```powershell
-python -m adtrial dashboard
-```
-
-The dashboard is launched by Streamlit as a script, so package-relative import:
-
-```python
-from .industry import country_to_iso3
-```
-
-was replaced with the package-absolute import:
-
-```python
-from adtrial.industry import country_to_iso3
-```
-
-
-## v0.2.2 hotfix
-
-Small UI/repository stabilization release before the first GitHub push.
-
-- Replaces the `×` glyph in chart titles with ASCII wording (`Phase by Status`) to avoid Windows/browser font rendering issues.
-- Keeps the Streamlit absolute-import hotfix from v0.2.1.
-- Adds `CHANGELOG.md` and a lightweight project-management guide.
-- No changes to ClinicalTrials.gov data collection or analytical filtering logic.
