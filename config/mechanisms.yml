@@ -1,0 +1,25 @@
+rules:
+  - category: "Amyloid-beta targeting"
+    patterns: ["\\bamyloid\\b", "\\baβ\\b", "\\banti[- ]?amyloid\\b", "\\bapp\\b", "\\bbace\\b", "beta[- ]secretase"]
+  - category: "Tau targeting"
+    patterns: ["\\btau\\b", "microtubule[- ]associated protein tau", "\\bmapt\\b"]
+  - category: "Cholinergic / symptomatic"
+    patterns: ["acetylcholinesterase", "cholinesterase", "donepezil", "rivastigmine", "galantamine"]
+  - category: "Glutamatergic / NMDA"
+    patterns: ["\\bnmda\\b", "glutamat", "memantine"]
+  - category: "Neuroinflammation / microglia"
+    patterns: ["microglia", "neuroinflamm", "\\btrem2\\b", "complement", "\\bcsf1r\\b", "inflammasome", "\\bnlrp3\\b"]
+  - category: "APOE / lipid metabolism"
+    patterns: ["\\bapoe\\b", "apolipoprotein e", "lipid metabolism", "\\blxr\\b"]
+  - category: "Metabolic / insulin / GLP-1"
+    patterns: ["\\bglp[- ]?1\\b", "glucagon[- ]like peptide", "semaglutide", "liraglutide", "insulin resistance"]
+  - category: "Synaptic / neuroprotective"
+    patterns: ["synap", "neuroprotect", "neurotroph", "\\bbdnf\\b", "\\bsigma[- ]?1\\b"]
+  - category: "Vascular / cerebrovascular"
+    patterns: ["cerebrovascular", "vascular", "blood[- ]brain barrier"]
+  - category: "Gene / cell therapy"
+    patterns: ["gene therap", "viral vector", "\\baav\\b", "stem cell", "cell therap", "crispr"]
+  - category: "Device / neuromodulation"
+    patterns: ["transcranial", "\\btms\\b", "\\btdcs\\b", "deep brain stimulation", "ultrasound", "neuromodulat", "photobiomodulation"]
+  - category: "Behavioral / lifestyle"
+    patterns: ["exercise", "diet", "cognitive training", "behavioral", "lifestyle", "sleep intervention"]

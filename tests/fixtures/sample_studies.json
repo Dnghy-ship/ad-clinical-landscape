@@ -1,0 +1,198 @@
+{
+  "studies": [
+    {
+      "protocolSection": {
+        "identificationModule": {
+          "nctId": "NCT00000001",
+          "briefTitle": "Example Anti-Amyloid Study",
+          "officialTitle": "Example Phase 3 Anti-Amyloid Study"
+        },
+        "statusModule": {
+          "overallStatus": "RECRUITING",
+          "startDateStruct": {
+            "date": "2025-01-01",
+            "type": "ACTUAL"
+          },
+          "primaryCompletionDateStruct": {
+            "date": "2027-06",
+            "type": "ESTIMATED"
+          },
+          "completionDateStruct": {
+            "date": "2027-12",
+            "type": "ESTIMATED"
+          },
+          "studyFirstPostDateStruct": {
+            "date": "2024-12-01",
+            "type": "ACTUAL"
+          },
+          "lastUpdatePostDateStruct": {
+            "date": "2026-07-15",
+            "type": "ACTUAL"
+          }
+        },
+        "sponsorCollaboratorsModule": {
+          "leadSponsor": {
+            "name": "Example Biopharma",
+            "class": "INDUSTRY"
+          },
+          "collaborators": [
+            {
+              "name": "Example University",
+              "class": "OTHER"
+            }
+          ]
+        },
+        "conditionsModule": {
+          "conditions": [
+            "Alzheimer Disease"
+          ],
+          "keywords": [
+            "amyloid",
+            "MCI"
+          ]
+        },
+        "designModule": {
+          "studyType": "INTERVENTIONAL",
+          "phases": [
+            "PHASE3"
+          ],
+          "enrollmentInfo": {
+            "count": 1200,
+            "type": "ESTIMATED"
+          },
+          "designInfo": {
+            "allocation": "RANDOMIZED",
+            "interventionModel": "PARALLEL",
+            "primaryPurpose": "TREATMENT",
+            "maskingInfo": {
+              "masking": "QUADRUPLE"
+            }
+          }
+        },
+        "armsInterventionsModule": {
+          "interventions": [
+            {
+              "type": "DRUG",
+              "name": "lecanemab",
+              "description": "Monoclonal antibody targeting amyloid beta aggregates.",
+              "otherNames": [
+                "BAN2401"
+              ],
+              "armGroupLabels": [
+                "Active"
+              ]
+            }
+          ]
+        },
+        "outcomesModule": {
+          "primaryOutcomes": [
+            {
+              "measure": "Change from baseline in CDR-SB",
+              "description": "Clinical Dementia Rating Sum of Boxes",
+              "timeFrame": "18 months"
+            }
+          ]
+        },
+        "eligibilityModule": {
+          "minimumAge": "50 Years",
+          "maximumAge": "90 Years",
+          "sex": "ALL",
+          "healthyVolunteers": false,
+          "stdAges": [
+            "ADULT",
+            "OLDER_ADULT"
+          ],
+          "eligibilityCriteria": "Inclusion Criteria:\n- Early Alzheimer's disease\n- Amyloid positive\n\nExclusion Criteria:\n- Major unstable medical disease"
+        },
+        "contactsLocationsModule": {
+          "locations": [
+            {
+              "facility": "Example Memory Center",
+              "status": "RECRUITING",
+              "city": "Boston",
+              "state": "Massachusetts",
+              "country": "United States",
+              "geoPoint": {
+                "lat": 42.36,
+                "lon": -71.06
+              }
+            }
+          ]
+        },
+        "descriptionModule": {
+          "briefSummary": "Example fixture only."
+        }
+      },
+      "hasResults": false
+    },
+    {
+      "protocolSection": {
+        "identificationModule": {
+          "nctId": "NCT00000002",
+          "briefTitle": "Example Neuromodulation Study"
+        },
+        "statusModule": {
+          "overallStatus": "COMPLETED",
+          "completionDateStruct": {
+            "date": "2025-08",
+            "type": "ACTUAL"
+          }
+        },
+        "sponsorCollaboratorsModule": {
+          "leadSponsor": {
+            "name": "Example Academic Center",
+            "class": "OTHER"
+          }
+        },
+        "conditionsModule": {
+          "conditions": [
+            "Alzheimer Disease"
+          ]
+        },
+        "designModule": {
+          "studyType": "INTERVENTIONAL",
+          "phases": [],
+          "enrollmentInfo": {
+            "count": 60,
+            "type": "ACTUAL"
+          }
+        },
+        "armsInterventionsModule": {
+          "interventions": [
+            {
+              "type": "DEVICE",
+              "name": "Transcranial magnetic stimulation",
+              "description": "Non-invasive neuromodulation."
+            }
+          ]
+        },
+        "outcomesModule": {
+          "primaryOutcomes": [
+            {
+              "measure": "ADAS-Cog change",
+              "timeFrame": "12 weeks"
+            }
+          ]
+        },
+        "eligibilityModule": {
+          "minimumAge": "60 Years",
+          "maximumAge": "85 Years",
+          "sex": "ALL",
+          "healthyVolunteers": false,
+          "eligibilityCriteria": "Adults with clinically diagnosed Alzheimer's disease."
+        },
+        "contactsLocationsModule": {
+          "locations": [
+            {
+              "facility": "Example Center",
+              "status": "COMPLETED",
+              "city": "London",
+              "country": "United Kingdom"
+            }
+          ]
+        }
+      },
+      "hasResults": true
+    }
+  ]
+}

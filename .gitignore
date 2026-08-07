@@ -1,0 +1,22 @@
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.venv/
+.streamlit/
+.vscode/
+.idea/
+
+# Generated ClinicalTrials.gov data
+data/raw/*.json
+data/processed/*
+data/smoke/*
+output/*
+
+!data/raw/.gitkeep
+!data/processed/.gitkeep
+!output/.gitkeep
+
+# OS
+.DS_Store
+Thumbs.db

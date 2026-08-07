@@ -1,0 +1,24 @@
+api:
+  base_url: "https://clinicaltrials.gov/api/v2"
+  timeout_seconds: 45
+  page_size: 1000
+  user_agent: "ad-clinical-landscape/0.1 (academic learning project)"
+
+query:
+  condition: "Alzheimer Disease"
+  interventional_only: true
+  allowed_intervention_types: []
+  max_studies: null
+
+processing:
+  eligibility_summary_chars: 1000
+  mechanism_rules: "config/mechanisms.yml"
+  mechanism_overrides: "config/mechanism_overrides.csv"
+
+output:
+  raw_dir: "data/raw"
+  processed_dir: "data/processed"
+  report_dir: "output"
+  excel_filename: "alzheimer_trials.xlsx"
+  sqlite_filename: "alzheimer_trials.sqlite"
+  html_report_filename: "ad_competitive_landscape.html"
