@@ -1,234 +1,153 @@
 # Alzheimer's Disease Clinical Trial Competitive Landscape
 
-**Version: 0.1.0**
+> A reproducible Python pipeline and interactive dashboard for exploring the Alzheimer's disease clinical-trial landscape using ClinicalTrials.gov API v2.
 
-这是一个面向 **阿尔茨海默病产业/投研观察** 的 ClinicalTrials.gov API v2 全流程 Python 项目。
+**Current public version: `v0.1.0`**
 
-## 能做什么
+This project is designed as a learning and research platform at the intersection of **biomedical informatics, pharmaceutical industry intelligence, and healthcare investment research**.
 
-- 自动分页抓取 `Alzheimer Disease`
-- 默认只保留 INTERVENTIONAL study
-- 抽取：
-  - Phase
-  - Lead sponsor / sponsor class
-  - Intervention
-  - Eligibility
-  - Primary outcomes
-  - Countries / trial sites
-  - Recruitment status
-  - Primary completion / completion date
-- 机制分类：
-  - API 原始 intervention text 保留
-  - 人工 curated override 优先
-  - 关键词/正则 heuristic 次之
-  - 输出 confidence/source，避免把推断当成 API 事实
-- 生成：
-  - CSV
-  - Excel
-  - SQLite
-  - raw JSON snapshot
-  - changes.csv（第二次运行起追踪变化）
-  - Plotly HTML report
-  - Streamlit interactive dashboard
+It does not attempt to produce an investment recommendation. Its first goal is to build a clean, reproducible **clinical-trial intelligence layer** that can later support asset-level, catalyst, company, and financial analysis.
 
 ---
 
-# 1. 先检查你现在的 Conda 环境
+## Why this project?
 
-你贴出的 `conda list` 明确显示：
+A search for Alzheimer's disease on ClinicalTrials.gov returns a broad research universe that includes:
+
+- drug and biological interventions,
+- devices and neuromodulation,
+- behavioral and lifestyle studies,
+- academic exploratory studies,
+- completed or terminated historical trials,
+- industry-sponsored therapeutic development.
+
+For industry-oriented research, these studies should not all be interpreted in the same way.
+
+This project therefore separates:
 
 ```text
-python 3.10.19
+ClinicalTrials.gov records
+        ↓
+Interventional studies
+        ↓
+Therapeutic candidates
+        ↓
+Active therapeutic candidates
+        ↓
+Industry-oriented competitive landscape
 ```
 
-先在 PowerShell 执行：
+The project is intentionally built so that the analytical definition of a "competitive therapeutic pipeline" remains explicit and can be improved over time.
 
-```powershell
-python --version
-where.exe python
-python -c "import sys; print(sys.executable); print(sys.version)"
-```
+---
 
-理想结果应包含：
+## Research questions
+
+The current version is designed to help explore questions such as:
+
+1. Which therapeutic mechanisms are most represented in active Alzheimer's trials?
+2. Which mechanisms are moving into Phase 2 and Phase 3 development?
+3. Which organizations are the most active lead sponsors?
+4. How different is the overall clinical-research universe from the active industry therapeutic pipeline?
+5. Which primary endpoints are commonly used in current trials?
+6. Where are future primary-completion dates clustered?
+7. Which studies deserve deeper asset-level investigation?
+
+The dashboard should be treated as a **question-generation tool**, not as a source of automatic conclusions.
+
+---
+
+## Current capabilities
+
+### ClinicalTrials.gov API collection
+
+The pipeline uses ClinicalTrials.gov API v2 and supports:
+
+- automatic pagination,
+- retry handling,
+- raw JSON snapshots,
+- configurable query settings,
+- full and partial/smoke-test runs.
+
+Default condition query:
 
 ```text
-Python 3.10.x
+Alzheimer Disease
 ```
 
-项目也附带：
-
-```powershell
-.\scripts\check_env.ps1
-```
----
-
-# 2. 安装项目
-
-进入解压后的项目目录：
-
-```powershell
-cd D:\Clinical_trials\ad_clinical_landscape
-conda activate mcm_py
-python -m pip install -e .
-```
-
-你已有 requests / pandas / plotly / openpyxl / PyYAML 等。
-最可能缺的是 Streamlit，`pip install -e .` 会一起安装。
-
-如果希望完全独立环境：
-
-```powershell
-conda env create -f environment.yml
-conda activate ad_trials
-```
+The current processing pipeline retains interventional studies for downstream analysis.
 
 ---
 
-# 3. 先跑离线测试
+### Structured study extraction
 
-```powershell
-python -m unittest discover -s tests -v
-```
+The project extracts:
 
-这个测试不联网。
-
----
-
-# 4. 环境 + API 诊断
-
-```powershell
-adtrial doctor
-```
-
-或：
-
-```powershell
-python -m adtrial doctor
-```
-
-它会打印：
-
-- 实际 Python executable
-- Python version
-- 依赖包版本
-- ClinicalTrials.gov API 连通性
-- API `dataTimestamp`
-
----
-
-# 5. 第一次只抓 100 条做 smoke test
-
-```powershell
-adtrial collect --max-studies 100
-adtrial report
-```
-
-然后查看：
-
-```text
-output\ad_competitive_landscape.html
-```
-
----
-
-# 6. 完整抓取
-
-```powershell
-adtrial all
-```
-
-默认查询：
-
-```text
-query.cond = Alzheimer Disease
-```
-
-并在本地过滤为：
-
-```text
-study_type == INTERVENTIONAL
-```
-
-没有强制只保留 DRUG，因为阿尔茨海默病竞争格局中还可能包含：
-
-- biological
-- device
-- neuromodulation
-- behavioral intervention
-
-你可以之后在 dashboard 或 CSV 中细分。
-
----
-
-# 7. 启动交互式 Dashboard
-
-```powershell
-adtrial dashboard
-```
-
-可筛：
-
-- status
+- NCT ID
+- study title
+- study type
 - phase
+- recruitment status
+- lead sponsor
 - sponsor class
-- sponsor
-- mechanism
-- country
-- 文本关键词
-
-图表：
-
-- Phase × Status
-- Top Lead Sponsors
-- Mechanism Landscape
-- Primary Completion Timeline
-- Geographic Footprint
-
-还能点开单条 NCT 查看：
-
+- collaborators
 - interventions
-- mechanism annotation
+- enrollment
+- study design
+- age / sex eligibility
+- full eligibility criteria
 - primary outcomes
-- eligibility
-- completion dates
-- ClinicalTrials.gov link
+- study locations
+- countries
+- primary completion date
+- study completion date
+- ClinicalTrials.gov update date
+
+Because one study can contain multiple interventions, outcomes, and locations, these are also stored as separate long-format tables.
 
 ---
 
-# 8. 输出目录
+### Therapeutic pipeline view
+
+The project currently defines a preliminary therapeutic candidate using:
 
 ```text
-data/
-├─ raw/
-│  └─ ctgov_alzheimer_YYYYMMDD_HHMMSS.json
-└─ processed/
-   ├─ studies.csv
-   ├─ interventions.csv
-   ├─ primary_outcomes.csv
-   ├─ locations.csv
-   ├─ changes.csv
-   ├─ run_metadata.json
-   ├─ alzheimer_trials.xlsx
-   └─ alzheimer_trials.sqlite
+Intervention type:
+DRUG / BIOLOGICAL / COMBINATION_PRODUCT
 
-output/
-└─ ad_competitive_landscape.html
+AND
+
+Primary purpose:
+TREATMENT / PREVENTION
 ```
+
+An **active therapeutic candidate** must additionally have an active trial status such as:
+
+```text
+RECRUITING
+NOT_YET_RECRUITING
+ACTIVE_NOT_RECRUITING
+ENROLLING_BY_INVITATION
+```
+
+This is a **project-defined analytical rule**, not an official ClinicalTrials.gov classification.
+
+Future versions will move from study-level filtering toward true **asset-level normalization**.
 
 ---
 
-# 9. 为什么机制字段要单独处理？
+## Mechanism annotation
 
-ClinicalTrials.gov 能结构化提供 intervention 的：
+ClinicalTrials.gov provides structured intervention information such as:
 
-- type
-- name
-- description
-- other names
+- intervention type,
+- intervention name,
+- description,
+- other names.
 
-但“统一、标准化、可直接拿来做赛道统计的药理机制标签”并不是一个可靠的原生字段。
+However, it does not provide a single standardized pharmacology field that is sufficient for competitive-landscape analysis.
 
-所以项目输出：
+This project therefore maintains a separate annotation layer:
 
 ```text
 mechanism_category
@@ -237,123 +156,503 @@ mechanism_matched_terms
 mechanism_source
 ```
 
-其中：
+Annotation sources currently include:
 
-```text
-curated_override
-```
-
-代表在：
+### Curated overrides
 
 ```text
 config/mechanism_overrides.csv
 ```
 
-人工维护过。
+These are manually reviewed mappings and receive the highest priority.
 
-```text
-heuristic_rule
-```
-
-代表通过：
+### Heuristic rules
 
 ```text
 config/mechanisms.yml
 ```
 
-的规则推断。
+These use keywords / regular expressions to provide a first-pass classification.
 
-做正式行业/金融研究时，对核心资产务必继续用：
+Example categories include:
 
-- 公司 pipeline
-- clinical readout
-- 论文
-- 专利
-- FDA / EMA / CDE
+- Amyloid-beta targeting
+- Tau targeting
+- Neuroinflammation / microglia
+- APOE / lipid metabolism
+- Metabolic / insulin / GLP-1
+- Synaptic / neuroprotective
+- Gene / cell therapy
+- Device / neuromodulation
+- Behavioral / lifestyle
 
-核实机制和资产定位。
-
----
-
-# 10. Changes：怎么持续追前沿
-
-第一次：
-
-```powershell
-adtrial collect
-```
-
-建立 baseline。
-
-过一周再次：
-
-```powershell
-adtrial collect
-```
-
-`changes.csv` 会记录：
-
-- NEW_STUDY
-- overall_status changed
-- phase changed
-- primary_completion_date changed
-- completion_date changed
-- last_update_post_date changed
-
-这比每次手动浏览几十个 trial 更适合长期追踪。
-
----
-
-# 11. 产业/金融分析怎么接上去
-
-这个包首先解决：
+Mechanism annotations should always be interpreted together with:
 
 ```text
-Clinical landscape
+mechanism_source
+mechanism_confidence
 ```
 
-下一步推荐你建立资产卡：
-
-```text
-Mechanism
-→ Phase
-→ Trial design
-→ Primary endpoint
-→ Biomarker enrichment
-→ Competitors
-→ Upcoming readout
-→ Sponsor/company
-→ Cash runway
-→ Licensing / M&A
-→ Valuation / market expectation
-```
-
-这样才真正从“生物医学信息学”进入“biotech industry / healthcare investment research”。
+Important assets should be manually verified against primary scientific, regulatory, and company sources before being used in formal research.
 
 ---
 
-# 12. 常用命令
+## Interactive dashboard
+
+Launch the Streamlit dashboard with:
 
 ```powershell
-# 当前解释器检查
-.\scripts\check_env.ps1
+python -m adtrial dashboard
+```
 
-# 安装
+The dashboard provides three research presets:
+
+```text
+All interventional studies
+Active therapeutics
+Industry active therapeutics
+```
+
+Available filters include:
+
+- recruitment status,
+- phase,
+- sponsor class,
+- lead sponsor,
+- mechanism,
+- country,
+- free-text search.
+
+Current visualizations include:
+
+- Phase by Status
+- Top Lead Sponsors
+- Mechanism Landscape
+- Primary Completion Timeline
+- Geographic Footprint
+
+Individual study pages expose:
+
+- interventions,
+- mechanism annotations,
+- primary outcomes,
+- eligibility criteria,
+- enrollment,
+- completion dates,
+- ClinicalTrials.gov links.
+
+---
+
+## Data-quality monitoring
+
+The pipeline produces:
+
+```text
+data_quality.csv
+```
+
+Current checks include:
+
+- missing sponsor information,
+- missing primary outcomes,
+- missing completion dates,
+- unclassified mechanisms,
+- curated vs heuristic mechanism coverage,
+- therapeutic candidate counts.
+
+This is important because the objective is not only to generate visualizations, but also to understand the reliability of the analytical layer behind them.
+
+---
+
+## Change tracking
+
+A full data run can act as a baseline.
+
+Subsequent full runs compare against the previous processed dataset and generate:
+
+```text
+changes.csv
+```
+
+Current tracked changes include:
+
+- new studies,
+- recruitment-status changes,
+- phase changes,
+- primary-completion date changes,
+- study-completion date changes,
+- ClinicalTrials.gov update-date changes.
+
+Partial smoke-test runs are written separately and do **not** overwrite the full baseline.
+
+---
+
+## Output files
+
+A full run generates:
+
+```text
+data/
+├─ raw/
+│  └─ ctgov_alzheimer_YYYYMMDD_HHMMSS.json
+│
+└─ processed/
+   ├─ studies.csv
+   ├─ interventions.csv
+   ├─ primary_outcomes.csv
+   ├─ locations.csv
+   ├─ changes.csv
+   ├─ pipeline_view.csv
+   ├─ data_quality.csv
+   ├─ run_metadata.json
+   ├─ alzheimer_trials.xlsx
+   └─ alzheimer_trials.sqlite
+
+output/
+└─ ad_competitive_landscape.html
+```
+
+Generated datasets and reports are intentionally excluded from Git version control.
+
+---
+
+## Installation
+
+Python `3.10+` is recommended.
+
+### Option 1 — Existing environment
+
+```powershell
+git clone <YOUR_REPOSITORY_URL>
+cd ad-clinical-landscape
+
 python -m pip install -e .
-
-# 离线测试
-python -m unittest discover -s tests -v
-
-# API 诊断
-adtrial doctor
-
-# 100 条测试
-adtrial collect --max-studies 100
-adtrial report
-
-# 完整运行
-adtrial all
-
-# Dashboard
-adtrial dashboard
 ```
+
+### Option 2 — Conda
+
+```powershell
+conda env create -f environment.yml
+conda activate ad_trials
+```
+
+---
+
+## Environment check
+
+```powershell
+python -m adtrial doctor
+```
+
+This checks:
+
+- Python version,
+- active interpreter,
+- required packages,
+- ClinicalTrials.gov API connectivity,
+- API version and data timestamp.
+
+---
+
+## Tests
+
+Offline unit tests:
+
+```powershell
+python -m unittest discover -s tests -v
+```
+
+Tests use local fixtures and do not require ClinicalTrials.gov network access.
+
+GitHub Actions also runs the test suite automatically on pushes and pull requests.
+
+---
+
+## Recommended first run
+
+Start with a partial smoke test:
+
+```powershell
+python -m adtrial collect --max-studies 100
+```
+
+Partial results are isolated from the full research baseline.
+
+Then run the full pipeline:
+
+```powershell
+python -m adtrial all
+```
+
+Generate / refresh the HTML report:
+
+```powershell
+python -m adtrial report
+```
+
+Launch the dashboard:
+
+```powershell
+python -m adtrial dashboard
+```
+
+---
+
+## Repository structure
+
+```text
+ad-clinical-landscape/
+│
+├─ .github/
+│  ├─ ISSUE_TEMPLATE/
+│  └─ workflows/
+│
+├─ config/
+│  ├─ alzheimer.yml
+│  ├─ mechanisms.yml
+│  └─ mechanism_overrides.csv
+│
+├─ docs/
+│  ├─ data_dictionary.md
+│  ├─ thinking_guide.md
+│  ├─ research_workflow.md
+│  └─ project_management.md
+│
+├─ notebooks/
+│
+├─ scripts/
+│
+├─ src/
+│  └─ adtrial/
+│     ├─ client.py
+│     ├─ config.py
+│     ├─ dashboard.py
+│     ├─ extract.py
+│     ├─ industry.py
+│     ├─ mechanism.py
+│     ├─ pipeline.py
+│     └─ report.py
+│
+├─ tests/
+│
+├─ CHANGELOG.md
+├─ CONTRIBUTING.md
+├─ LICENSE
+├─ environment.yml
+├─ pyproject.toml
+└─ README.md
+```
+
+---
+
+## How to think with the data
+
+Counts alone are not conclusions.
+
+For example, a mechanism with many active trials may represent:
+
+- stronger biological validation,
+- greater commercial interest,
+- a mature and crowded competitive field.
+
+A mechanism with few trials may represent:
+
+- differentiation,
+- weak biological validation,
+- or technical difficulty.
+
+Similarly:
+
+```text
+Phase 2 ≠ Phase 2
+```
+
+Two Phase 2 studies may differ substantially in:
+
+- sample size,
+- biomarker enrichment,
+- randomization,
+- comparator,
+- treatment duration,
+- primary endpoint,
+- geographical scope,
+- sponsor capabilities.
+
+The dashboard is therefore intended to guide deeper study-level and asset-level research.
+
+---
+
+## Suggested research workflow
+
+For a study that looks important:
+
+```text
+ClinicalTrials.gov
+        ↓
+Trial design
+        ↓
+Intervention / mechanism
+        ↓
+Primary endpoint
+        ↓
+Patient enrichment / biomarkers
+        ↓
+Sponsor / company
+        ↓
+Scientific readout
+        ↓
+Regulatory context
+        ↓
+Commercial positioning
+        ↓
+Financial context
+```
+
+A primary-completion date should be treated as a **research lead**, not automatically as a company catalyst date.
+
+Actual readout timing should later be verified against:
+
+- company investor relations materials,
+- earnings calls,
+- conference schedules,
+- regulatory communications.
+
+---
+
+## Project roadmap
+
+### `v0.1.x` — Stabilization
+
+Current focus:
+
+- reproducible collection,
+- data-quality checks,
+- stable dashboard,
+- tests,
+- documentation,
+- change tracking.
+
+### `v0.2.0` — Asset layer
+
+Planned:
+
+- intervention / drug-name normalization,
+- aliases and development-code mapping,
+- sponsor / company normalization,
+- multiple NCTs aggregated into one asset,
+- target taxonomy,
+- standardized mechanism taxonomy,
+- highest active phase,
+- active asset-level pipeline table.
+
+Target structure:
+
+```text
+NCT-level studies
+        ↓
+normalized clinical assets
+```
+
+### `v0.3.0` — Catalyst layer
+
+Planned:
+
+- candidate readout calendar,
+- primary completion vs expected readout distinction,
+- company-guided catalyst dates,
+- conference / regulatory-event verification.
+
+### `v0.4.0` — Company and financial layer
+
+Planned:
+
+- listed-company mapping,
+- ticker / exchange,
+- cash and short-term investments,
+- debt,
+- R&D spending,
+- cash burn,
+- estimated runway,
+- licensing transactions,
+- market context.
+
+---
+
+## Project management
+
+Development follows a lightweight Git workflow:
+
+```text
+main
+├─ feature/<topic>
+├─ fix/<topic>
+├─ data/<topic>
+└─ docs/<topic>
+```
+
+Examples:
+
+```text
+feature/asset-normalization
+data/sponsor-normalization
+fix/dashboard-filter
+docs/research-methodology
+```
+
+Before merging changes into `main`:
+
+```powershell
+python -m unittest discover -s tests -v
+git status
+git diff
+```
+
+Stable versions are tagged using:
+
+```text
+v0.1.0
+v0.1.1
+v0.2.0
+...
+```
+
+See:
+
+```text
+CONTRIBUTING.md
+docs/project_management.md
+```
+
+for the detailed workflow.
+
+---
+
+## Limitations
+
+This project currently has several deliberate limitations:
+
+1. ClinicalTrials.gov is a registry, not a standardized pharmaceutical asset database.
+2. Mechanism annotations are partly heuristic.
+3. Sponsor names have not yet been fully normalized to corporate entities.
+4. One therapeutic asset may appear in multiple NCT records.
+5. Trial phase alone does not measure asset quality.
+6. Primary-completion dates are not guaranteed readout dates.
+7. Clinical data alone is insufficient for commercial or investment conclusions.
+
+These limitations define the next stages of the project rather than being hidden assumptions.
+
+---
+
+## Disclaimer
+
+This repository is intended for educational, research, and data-engineering purposes.
+
+It is **not medical advice and not investment advice**.
+
+ClinicalTrials.gov records should be verified against primary trial, scientific, regulatory, and company sources before being used for high-stakes decisions.
+
+---
+
+## License
+
+MIT License.
