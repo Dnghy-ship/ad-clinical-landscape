@@ -27,10 +27,10 @@ This project therefore separates:
 
 ```text
 ClinicalTrials.gov records
-        鈫?Interventional studies
-        鈫?Therapeutic candidates
-        鈫?Active therapeutic candidates
-        鈫?Industry-oriented competitive landscape
+        ->Interventional studies
+        ->Therapeutic candidates
+        ->Active therapeutic candidates
+        ->Industry-oriented competitive landscape
 ```
 
 The project is intentionally built so that the analytical definition of a "competitive therapeutic pipeline" remains explicit and can be improved over time.
@@ -170,7 +170,7 @@ config/mechanisms.yml
 
 These use keywords / regular expressions to provide a first-pass classification.
 
-Example categories include:
+Example mechanism categories include:
 
 - Amyloid-beta targeting
 - Tau targeting
@@ -178,9 +178,9 @@ Example categories include:
 - APOE / lipid metabolism
 - Metabolic / insulin / GLP-1
 - Synaptic / neuroprotective
-- Gene / cell therapy
-- Device / neuromodulation
-- Behavioral / lifestyle
+- Vascular / cerebrovascular
+
+Device, behavioral, procedural, dietary, and other non-drug approaches are retained in the **Intervention Landscape** rather than being forced into the biological mechanism taxonomy.
 
 Mechanism annotations should always be interpreted together with:
 
@@ -201,12 +201,14 @@ Launch the Streamlit dashboard with:
 python -m adtrial dashboard
 ```
 
-The dashboard provides three research presets:
+The dashboard provides several research views:
 
 ```text
 All interventional studies
-Active therapeutics
-Industry active therapeutics
+Active treatment / prevention - all modalities
+Active drug / biologic / genetic studies
+Active non-drug interventions
+Industry-led active drug / biologic / genetic
 ```
 
 Available filters include:
@@ -219,12 +221,16 @@ Available filters include:
 - country,
 - free-text search.
 
-Current visualizations include:
+Current visualizations and review views include:
 
 - Phase by Status
-- Top Lead Sponsors
+- Top Lead Sponsors (as registered)
+- Intervention Type Landscape
 - Mechanism Landscape
-- Primary Completion Timeline
+- Mechanism annotation coverage and review queue
+- Historical ACTUAL primary completions
+- Future ESTIMATED primary completions
+- Approximate trial-duration patterns
 - Geographic Footprint
 
 Individual study pages expose:
@@ -289,22 +295,24 @@ A full run generates:
 
 ```text
 data/
-鈹溾攢 raw/
-鈹? 鈹斺攢 ctgov_alzheimer_YYYYMMDD_HHMMSS.json
-鈹?鈹斺攢 processed/
-   鈹溾攢 studies.csv
-   鈹溾攢 interventions.csv
-   鈹溾攢 primary_outcomes.csv
-   鈹溾攢 locations.csv
-   鈹溾攢 changes.csv
-   鈹溾攢 pipeline_view.csv
-   鈹溾攢 data_quality.csv
-   鈹溾攢 run_metadata.json
-   鈹溾攢 alzheimer_trials.xlsx
-   鈹斺攢 alzheimer_trials.sqlite
+|-- raw/
+|   `-- ctgov_alzheimer_YYYYMMDD_HHMMSS.json
+|
+`-- processed/
+    |-- studies.csv
+    |-- interventions.csv
+    |-- primary_outcomes.csv
+    |-- locations.csv
+    |-- changes.csv
+    |-- pipeline_view.csv
+    |-- mechanism_review_queue.csv
+    |-- data_quality.csv
+    |-- run_metadata.json
+    |-- alzheimer_trials.xlsx
+    `-- alzheimer_trials.sqlite
 
 output/
-鈹斺攢 ad_competitive_landscape.html
+`-- ad_competitive_landscape.html
 ```
 
 Generated datasets and reports are intentionally excluded from Git version control.
@@ -315,7 +323,7 @@ Generated datasets and reports are intentionally excluded from Git version contr
 
 Python `3.10+` is recommended.
 
-### Option 1 鈥?Existing environment
+### Option 1 -Existing environment
 
 ```powershell
 git clone <YOUR_REPOSITORY_URL>
@@ -324,7 +332,7 @@ cd ad-clinical-landscape
 python -m pip install -e .
 ```
 
-### Option 2 鈥?Conda
+### Option 2 -Conda
 
 ```powershell
 conda env create -f environment.yml
@@ -397,37 +405,44 @@ python -m adtrial dashboard
 
 ```text
 ad-clinical-landscape/
-鈹?鈹溾攢 .github/
-鈹? 鈹溾攢 ISSUE_TEMPLATE/
-鈹? 鈹斺攢 workflows/
-鈹?鈹溾攢 config/
-鈹? 鈹溾攢 alzheimer.yml
-鈹? 鈹溾攢 mechanisms.yml
-鈹? 鈹斺攢 mechanism_overrides.csv
-鈹?鈹溾攢 docs/
-鈹? 鈹溾攢 data_dictionary.md
-鈹? 鈹溾攢 thinking_guide.md
-鈹? 鈹溾攢 research_workflow.md
-鈹? 鈹斺攢 project_management.md
-鈹?鈹溾攢 notebooks/
-鈹?鈹溾攢 scripts/
-鈹?鈹溾攢 src/
-鈹? 鈹斺攢 adtrial/
-鈹?    鈹溾攢 client.py
-鈹?    鈹溾攢 config.py
-鈹?    鈹溾攢 dashboard.py
-鈹?    鈹溾攢 extract.py
-鈹?    鈹溾攢 industry.py
-鈹?    鈹溾攢 mechanism.py
-鈹?    鈹溾攢 pipeline.py
-鈹?    鈹斺攢 report.py
-鈹?鈹溾攢 tests/
-鈹?鈹溾攢 CHANGELOG.md
-鈹溾攢 CONTRIBUTING.md
-鈹溾攢 LICENSE
-鈹溾攢 environment.yml
-鈹溾攢 pyproject.toml
-鈹斺攢 README.md
+|-- .github/
+|   |-- ISSUE_TEMPLATE/
+|   `-- workflows/
+|-- .streamlit/
+|-- config/
+|   |-- alzheimer.yml
+|   |-- mechanisms.yml
+|   `-- mechanism_overrides.csv
+|-- data/
+|-- docs/
+|   |-- data_dictionary.md
+|   |-- data_semantics.md
+|   |-- thinking_guide.md
+|   |-- research_workflow.md
+|   `-- project_management.md
+|-- notebooks/
+|-- output/
+|-- scripts/
+|-- src/
+|   `-- adtrial/
+|       |-- analytics.py
+|       |-- client.py
+|       |-- config.py
+|       |-- dashboard.py
+|       |-- extract.py
+|       |-- industry.py
+|       |-- mechanism.py
+|       |-- pipeline.py
+|       `-- report.py
+|-- tests/
+|-- CHANGELOG.md
+|-- CONTRIBUTING.md
+|-- LICENSE
+|-- environment.yml
+|-- pyproject.toml
+|-- requirements.txt
+|-- streamlit_app.py
+`-- README.md
 ```
 
 ---
@@ -451,7 +466,7 @@ A mechanism with few trials may represent:
 Similarly:
 
 ```text
-Phase 2 鈮?Phase 2
+Phase 2 !=Phase 2
 ```
 
 Two Phase 2 studies may differ substantially in:
@@ -475,15 +490,15 @@ For a study that looks important:
 
 ```text
 ClinicalTrials.gov
-        鈫?Trial design
-        鈫?Intervention / mechanism
-        鈫?Primary endpoint
-        鈫?Patient enrichment / biomarkers
-        鈫?Sponsor / company
-        鈫?Scientific readout
-        鈫?Regulatory context
-        鈫?Commercial positioning
-        鈫?Financial context
+        ->Trial design
+        ->Intervention / mechanism
+        ->Primary endpoint
+        ->Patient enrichment / biomarkers
+        ->Sponsor / company
+        ->Scientific readout
+        ->Regulatory context
+        ->Commercial positioning
+        ->Financial context
 ```
 
 A primary-completion date should be treated as a **research lead**, not automatically as a company catalyst date.
@@ -499,27 +514,39 @@ Actual readout timing should later be verified against:
 
 ## Project roadmap
 
-### `v0.1.x` 鈥?Stabilization
+### `v0.1.0` - Initial pipeline
 
-Current focus:
+Delivered:
 
-- reproducible collection,
-- data-quality checks,
-- stable dashboard,
-- tests,
-- documentation,
-- change tracking.
+- ClinicalTrials.gov API v2 collection,
+- structured study / intervention / outcome / location tables,
+- CSV / Excel / SQLite export,
+- initial Streamlit dashboard,
+- offline tests.
 
-### `v0.2.0` 鈥?Asset layer
+### `v0.2.0` - Data semantics and research views
+
+Current release:
+
+- explicit API-native vs project-derived field semantics,
+- phase `Not Applicable` vs missing distinction,
+- registered sponsor vs industry-involved views,
+- dedicated Intervention Landscape,
+- narrower Mechanism Landscape with review queue,
+- non-drug intervention research views,
+- ACTUAL vs ESTIMATED primary-completion analysis,
+- potential stale-record QA,
+- adaptive dashboard layout.
+
+### `v0.3.0` - Asset layer
 
 Planned:
 
 - intervention / drug-name normalization,
 - aliases and development-code mapping,
+- multiple NCTs aggregated into canonical assets,
 - sponsor / company normalization,
-- multiple NCTs aggregated into one asset,
-- target taxonomy,
-- standardized mechanism taxonomy,
+- modality / target / mechanism separation,
 - highest active phase,
 - active asset-level pipeline table.
 
@@ -527,10 +554,11 @@ Target structure:
 
 ```text
 NCT-level studies
-        鈫?normalized clinical assets
+        ->
+normalized clinical assets
 ```
 
-### `v0.3.0` 鈥?Catalyst layer
+### `v0.4.0` - Catalyst layer
 
 Planned:
 
@@ -539,7 +567,7 @@ Planned:
 - company-guided catalyst dates,
 - conference / regulatory-event verification.
 
-### `v0.4.0` 鈥?Company and financial layer
+### `v0.5.0` - Company and financial layer
 
 Planned:
 
@@ -561,10 +589,10 @@ Development follows a lightweight Git workflow:
 
 ```text
 main
-鈹溾攢 feature/<topic>
-鈹溾攢 fix/<topic>
-鈹溾攢 data/<topic>
-鈹斺攢 docs/<topic>
+|-- feature/<topic>
+|-- fix/<topic>
+|-- data/<topic>
+`-- docs/<topic>
 ```
 
 Examples:
@@ -637,15 +665,15 @@ MIT License.
 
 ---
 
-## v0.2.0 鈥?Data semantics update
+## v0.2.0 -Data semantics update
 
-The v0.2.0 development release focuses on making dashboard interpretation more defensible.
+The v0.2.0 release focuses on making dashboard interpretation more defensible.
 
 ### Phase
 The dashboard now distinguishes:
 
-- `Not Applicable` 鈥?explicitly reported as `NA` by ClinicalTrials.gov.
-- `Missing / Not reported` 鈥?no phase value in the record.
+- `Not Applicable` -explicitly reported as `NA` by ClinicalTrials.gov.
+- `Missing / Not reported` -no phase value in the record.
 
 ### Sponsors
 Lead sponsors are displayed **as registered**. The project still does not perform parent-company, subsidiary, acquisition, or fuzzy-name consolidation.
@@ -657,11 +685,12 @@ The mechanism landscape no longer treats all intervention rows as pharmacologica
 
 It now:
 
-1. keeps drug / biological / combination-product interventions,
-2. removes obvious placebo / sham / control rows,
-3. applies curated and heuristic annotations,
-4. reports annotation coverage,
-5. sends unresolved eligible interventions to a review queue.
+1. keeps drug / biological / combination-product / genetic interventions for mechanism review,
+2. retains other intervention types in the Intervention Landscape,
+3. removes obvious placebo / sham / control rows from mechanism analysis,
+4. applies curated and heuristic annotations,
+5. reports annotation coverage,
+6. sends unresolved eligible interventions to a review queue.
 
 This makes `unclassified` an explicit data-quality/research workflow rather than a misleading dominant mechanism category.
 
@@ -676,7 +705,7 @@ The project also extracts status-verification information and flags records that
 See `docs/data_semantics.md` and `docs/v0.2.0_upgrade.md`.
 
 
-### v0.2.0 final-candidate refinement
+### v0.2.0 intervention-landscape refinement
 
 The dashboard now separates the full **Intervention Landscape** from the narrower **Mechanism Landscape**. Non-drug approaches are retained and can be explored directly rather than being discarded.
 
