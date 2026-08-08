@@ -1,8 +1,8 @@
-# Alzheimer's Disease Clinical Trial Competitive Landscape
+﻿# Alzheimer's Disease Clinical Trial Competitive Landscape
 
 > A reproducible Python pipeline and interactive dashboard for exploring the Alzheimer's disease clinical-trial landscape using ClinicalTrials.gov API v2.
 
-**Current public version: `v0.1.0`**
+**Current version: `v0.2.0`**
 
 This project is designed as a learning and research platform at the intersection of **biomedical informatics, pharmaceutical industry intelligence, and healthcare investment research**.
 
@@ -27,14 +27,10 @@ This project therefore separates:
 
 ```text
 ClinicalTrials.gov records
-        ↓
-Interventional studies
-        ↓
-Therapeutic candidates
-        ↓
-Active therapeutic candidates
-        ↓
-Industry-oriented competitive landscape
+        鈫?Interventional studies
+        鈫?Therapeutic candidates
+        鈫?Active therapeutic candidates
+        鈫?Industry-oriented competitive landscape
 ```
 
 The project is intentionally built so that the analytical definition of a "competitive therapeutic pipeline" remains explicit and can be improved over time.
@@ -293,23 +289,22 @@ A full run generates:
 
 ```text
 data/
-├─ raw/
-│  └─ ctgov_alzheimer_YYYYMMDD_HHMMSS.json
-│
-└─ processed/
-   ├─ studies.csv
-   ├─ interventions.csv
-   ├─ primary_outcomes.csv
-   ├─ locations.csv
-   ├─ changes.csv
-   ├─ pipeline_view.csv
-   ├─ data_quality.csv
-   ├─ run_metadata.json
-   ├─ alzheimer_trials.xlsx
-   └─ alzheimer_trials.sqlite
+鈹溾攢 raw/
+鈹? 鈹斺攢 ctgov_alzheimer_YYYYMMDD_HHMMSS.json
+鈹?鈹斺攢 processed/
+   鈹溾攢 studies.csv
+   鈹溾攢 interventions.csv
+   鈹溾攢 primary_outcomes.csv
+   鈹溾攢 locations.csv
+   鈹溾攢 changes.csv
+   鈹溾攢 pipeline_view.csv
+   鈹溾攢 data_quality.csv
+   鈹溾攢 run_metadata.json
+   鈹溾攢 alzheimer_trials.xlsx
+   鈹斺攢 alzheimer_trials.sqlite
 
 output/
-└─ ad_competitive_landscape.html
+鈹斺攢 ad_competitive_landscape.html
 ```
 
 Generated datasets and reports are intentionally excluded from Git version control.
@@ -320,7 +315,7 @@ Generated datasets and reports are intentionally excluded from Git version contr
 
 Python `3.10+` is recommended.
 
-### Option 1 — Existing environment
+### Option 1 鈥?Existing environment
 
 ```powershell
 git clone <YOUR_REPOSITORY_URL>
@@ -329,7 +324,7 @@ cd ad-clinical-landscape
 python -m pip install -e .
 ```
 
-### Option 2 — Conda
+### Option 2 鈥?Conda
 
 ```powershell
 conda env create -f environment.yml
@@ -402,45 +397,37 @@ python -m adtrial dashboard
 
 ```text
 ad-clinical-landscape/
-│
-├─ .github/
-│  ├─ ISSUE_TEMPLATE/
-│  └─ workflows/
-│
-├─ config/
-│  ├─ alzheimer.yml
-│  ├─ mechanisms.yml
-│  └─ mechanism_overrides.csv
-│
-├─ docs/
-│  ├─ data_dictionary.md
-│  ├─ thinking_guide.md
-│  ├─ research_workflow.md
-│  └─ project_management.md
-│
-├─ notebooks/
-│
-├─ scripts/
-│
-├─ src/
-│  └─ adtrial/
-│     ├─ client.py
-│     ├─ config.py
-│     ├─ dashboard.py
-│     ├─ extract.py
-│     ├─ industry.py
-│     ├─ mechanism.py
-│     ├─ pipeline.py
-│     └─ report.py
-│
-├─ tests/
-│
-├─ CHANGELOG.md
-├─ CONTRIBUTING.md
-├─ LICENSE
-├─ environment.yml
-├─ pyproject.toml
-└─ README.md
+鈹?鈹溾攢 .github/
+鈹? 鈹溾攢 ISSUE_TEMPLATE/
+鈹? 鈹斺攢 workflows/
+鈹?鈹溾攢 config/
+鈹? 鈹溾攢 alzheimer.yml
+鈹? 鈹溾攢 mechanisms.yml
+鈹? 鈹斺攢 mechanism_overrides.csv
+鈹?鈹溾攢 docs/
+鈹? 鈹溾攢 data_dictionary.md
+鈹? 鈹溾攢 thinking_guide.md
+鈹? 鈹溾攢 research_workflow.md
+鈹? 鈹斺攢 project_management.md
+鈹?鈹溾攢 notebooks/
+鈹?鈹溾攢 scripts/
+鈹?鈹溾攢 src/
+鈹? 鈹斺攢 adtrial/
+鈹?    鈹溾攢 client.py
+鈹?    鈹溾攢 config.py
+鈹?    鈹溾攢 dashboard.py
+鈹?    鈹溾攢 extract.py
+鈹?    鈹溾攢 industry.py
+鈹?    鈹溾攢 mechanism.py
+鈹?    鈹溾攢 pipeline.py
+鈹?    鈹斺攢 report.py
+鈹?鈹溾攢 tests/
+鈹?鈹溾攢 CHANGELOG.md
+鈹溾攢 CONTRIBUTING.md
+鈹溾攢 LICENSE
+鈹溾攢 environment.yml
+鈹溾攢 pyproject.toml
+鈹斺攢 README.md
 ```
 
 ---
@@ -464,7 +451,7 @@ A mechanism with few trials may represent:
 Similarly:
 
 ```text
-Phase 2 ≠ Phase 2
+Phase 2 鈮?Phase 2
 ```
 
 Two Phase 2 studies may differ substantially in:
@@ -488,24 +475,15 @@ For a study that looks important:
 
 ```text
 ClinicalTrials.gov
-        ↓
-Trial design
-        ↓
-Intervention / mechanism
-        ↓
-Primary endpoint
-        ↓
-Patient enrichment / biomarkers
-        ↓
-Sponsor / company
-        ↓
-Scientific readout
-        ↓
-Regulatory context
-        ↓
-Commercial positioning
-        ↓
-Financial context
+        鈫?Trial design
+        鈫?Intervention / mechanism
+        鈫?Primary endpoint
+        鈫?Patient enrichment / biomarkers
+        鈫?Sponsor / company
+        鈫?Scientific readout
+        鈫?Regulatory context
+        鈫?Commercial positioning
+        鈫?Financial context
 ```
 
 A primary-completion date should be treated as a **research lead**, not automatically as a company catalyst date.
@@ -521,7 +499,7 @@ Actual readout timing should later be verified against:
 
 ## Project roadmap
 
-### `v0.1.x` — Stabilization
+### `v0.1.x` 鈥?Stabilization
 
 Current focus:
 
@@ -532,7 +510,7 @@ Current focus:
 - documentation,
 - change tracking.
 
-### `v0.2.0` — Asset layer
+### `v0.2.0` 鈥?Asset layer
 
 Planned:
 
@@ -549,11 +527,10 @@ Target structure:
 
 ```text
 NCT-level studies
-        ↓
-normalized clinical assets
+        鈫?normalized clinical assets
 ```
 
-### `v0.3.0` — Catalyst layer
+### `v0.3.0` 鈥?Catalyst layer
 
 Planned:
 
@@ -562,7 +539,7 @@ Planned:
 - company-guided catalyst dates,
 - conference / regulatory-event verification.
 
-### `v0.4.0` — Company and financial layer
+### `v0.4.0` 鈥?Company and financial layer
 
 Planned:
 
@@ -584,10 +561,10 @@ Development follows a lightweight Git workflow:
 
 ```text
 main
-├─ feature/<topic>
-├─ fix/<topic>
-├─ data/<topic>
-└─ docs/<topic>
+鈹溾攢 feature/<topic>
+鈹溾攢 fix/<topic>
+鈹溾攢 data/<topic>
+鈹斺攢 docs/<topic>
 ```
 
 Examples:
@@ -656,3 +633,50 @@ ClinicalTrials.gov records should be verified against primary trial, scientific,
 ## License
 
 MIT License.
+
+
+---
+
+## v0.2.0 鈥?Data semantics update
+
+The v0.2.0 development release focuses on making dashboard interpretation more defensible.
+
+### Phase
+The dashboard now distinguishes:
+
+- `Not Applicable` 鈥?explicitly reported as `NA` by ClinicalTrials.gov.
+- `Missing / Not reported` 鈥?no phase value in the record.
+
+### Sponsors
+Lead sponsors are displayed **as registered**. The project still does not perform parent-company, subsidiary, acquisition, or fuzzy-name consolidation.
+
+Industry collaborator classes are now extracted separately so "industry-led" can be distinguished from broader "industry-involved" research.
+
+### Mechanisms
+The mechanism landscape no longer treats all intervention rows as pharmacological mechanisms.
+
+It now:
+
+1. keeps drug / biological / combination-product interventions,
+2. removes obvious placebo / sham / control rows,
+3. applies curated and heuristic annotations,
+4. reports annotation coverage,
+5. sends unresolved eligible interventions to a review queue.
+
+This makes `unclassified` an explicit data-quality/research workflow rather than a misleading dominant mechanism category.
+
+### Timeline
+Primary-completion analysis is split into:
+
+- historical `ACTUAL` primary-completion dates,
+- future `ESTIMATED` primary-completion dates for active-like studies.
+
+The project also extracts status-verification information and flags records that may require stale-status review.
+
+See `docs/data_semantics.md` and `docs/v0.2.0_upgrade.md`.
+
+
+### v0.2.0 final-candidate refinement
+
+The dashboard now separates the full **Intervention Landscape** from the narrower **Mechanism Landscape**. Non-drug approaches are retained and can be explored directly rather than being discarded.
+

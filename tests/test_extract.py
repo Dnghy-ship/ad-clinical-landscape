@@ -24,7 +24,8 @@ class TestExtraction(unittest.TestCase):
 
     def test_device(self):
         row, ints, _, _ = parse_study(self.studies[1], self.rules, self.overrides, 500)
-        self.assertEqual(row["phase"],"NA")
+        self.assertEqual(row["phase"],"Missing / Not reported")
+        self.assertEqual(row["phase_reporting"],"missing")
         self.assertEqual(ints[0]["mechanism_category"],"Device / neuromodulation")
         self.assertTrue(row["has_results"])
 
