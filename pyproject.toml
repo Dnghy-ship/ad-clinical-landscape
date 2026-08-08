@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "ad-clinical-landscape"
-version = "0.1.0"
+version = "0.2.0"
 description = "Alzheimer's disease clinical trial competitive landscape using ClinicalTrials.gov API v2"
 readme = "README.md"
 requires-python = ">=3.10,<3.14"
@@ -14,7 +14,7 @@ dependencies = [
   "plotly>=6,<7",
   "openpyxl>=3.1,<4",
   "PyYAML>=6,<7",
-  "streamlit>=1.40,<2",
+  "streamlit>=1.61,<1.62",
   "pycountry>=24,<25"
 ]
 

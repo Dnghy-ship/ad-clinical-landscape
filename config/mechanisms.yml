@@ -17,9 +17,3 @@ rules:
     patterns: ["synap", "neuroprotect", "neurotroph", "\\bbdnf\\b", "\\bsigma[- ]?1\\b"]
   - category: "Vascular / cerebrovascular"
     patterns: ["cerebrovascular", "vascular", "blood[- ]brain barrier"]
-  - category: "Gene / cell therapy"
-    patterns: ["gene therap", "viral vector", "\\baav\\b", "stem cell", "cell therap", "crispr"]
-  - category: "Device / neuromodulation"
-    patterns: ["transcranial", "\\btms\\b", "\\btdcs\\b", "deep brain stimulation", "ultrasound", "neuromodulat", "photobiomodulation"]
-  - category: "Behavioral / lifestyle"
-    patterns: ["exercise", "diet", "cognitive training", "behavioral", "lifestyle", "sleep intervention"]

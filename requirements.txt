@@ -3,6 +3,6 @@ pandas>=2.2,<3
 plotly>=6,<7
 openpyxl>=3.1,<4
 PyYAML>=6,<7
-streamlit>=1.40,<2
+streamlit>=1.61,<1.62
 
 pycountry>=24,<25
